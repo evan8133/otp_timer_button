@@ -15,6 +15,10 @@ class OtpTimerButton extends StatefulWidget {
   /// The button text
   final Text text;
 
+  /// code in text
+  /// default is 'in'
+  final String resendCodeInText;
+
   /// the loading indicator
   final ProgressIndicator? loadingIndicator;
 
@@ -35,6 +39,8 @@ class OtpTimerButton extends StatefulWidget {
   /// Color of the text
   final Color? textColor;
 
+  final ButtonStyle buttonStyle;
+
   /// Color of the loading indicator
   final Color? loadingIndicatorColor;
 
@@ -49,9 +55,11 @@ class OtpTimerButton extends StatefulWidget {
       {Key? key,
       required this.onPressed,
       required this.text,
+      required this.resendCodeInText,
       this.loadingIndicator,
       required this.duration,
       this.controller,
+      this.buttonStyle = const ButtonStyle(),
       this.height,
       this.backgroundColor,
       this.textColor,
@@ -139,13 +147,18 @@ class _OtpTimerButtonState extends State<OtpTimerButton> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            widget.text,
+            Text(
+              widget.resendCodeInText,
+              style: widget.text.style?.copyWith(
+                color: widget.textColor ?? Colors.black,
+              ),
+            ),
             SizedBox(
-              width: 10,
+              width: 5,
             ),
             Text(
               '$_counter',
-              style: widget.text.style,
+              style: widget.text.style?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
         );
@@ -155,7 +168,7 @@ class _OtpTimerButtonState extends State<OtpTimerButton> {
   _roundedRectangleBorder() {
     if (widget.radius != null) {
       return RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(widget.radius!),
+        borderRadius: BorderRadius.circular(widget.radius ?? 0),
       );
     } else {
       return null;
@@ -178,31 +191,21 @@ class _OtpTimerButtonState extends State<OtpTimerButton> {
           onPressed:
               _state == ButtonState.enable_button ? _onPressedButton : null,
           child: _childBuilder(),
-          style: ElevatedButton.styleFrom(
-            foregroundColor: widget.textColor,
-            backgroundColor: widget.backgroundColor,
-            shape: _roundedRectangleBorder(),
-          ),
+          style: widget.buttonStyle,
         );
       case ButtonType.text_button:
         return TextButton(
           onPressed:
               _state == ButtonState.enable_button ? _onPressedButton : null,
           child: _childBuilder(),
-          style: TextButton.styleFrom(
-            foregroundColor: widget.backgroundColor,
-            shape: _roundedRectangleBorder(),
-          ),
+          style: widget.buttonStyle,
         );
       case ButtonType.outlined_button:
         return OutlinedButton(
           onPressed:
               _state == ButtonState.enable_button ? _onPressedButton : null,
           child: _childBuilder(),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: widget.backgroundColor,
-            shape: _roundedRectangleBorder(),
-          ),
+          style: widget.buttonStyle,
         );
     }
   }

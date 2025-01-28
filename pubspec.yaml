@@ -1,6 +1,6 @@
 name: otp_timer_button
 description: This package for easy implementation otp timer button which will be enabled after specified time.
-version: 1.1.1
+version: 1.1.2
 homepage: https://github.com/mpcreza/otp_timer_button
 
 environment:
